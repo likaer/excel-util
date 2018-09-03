@@ -73,6 +73,20 @@ public class ExcelUtil {
     }
 
     private static Object getPropertyValue(Object obj, String propertyName){
+        Field[] fields = obj.getClass().getFields();
+        for (int i=0;i<fields.length;i++){
+            Object val = null;
+            if(fields[i].getName().equals(propertyName)) {
+                try {
+                    fields[i].setAccessible(true);
+                    val = fields[i].get(obj);
+
+                } catch (IllegalAccessException e) {
+                    //TODO
+                }
+                return val;
+            }
+        }
         return null;
     }
 
