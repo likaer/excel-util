@@ -1,5 +1,6 @@
 package cn.karl.excel;
 
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
@@ -61,8 +62,12 @@ public class ExcelUtil {
         //write Row
         for (int rowIndex = 0; rowIndex< list.size();rowIndex++){
             Row row = sh.createRow(rowIndex);
-            for (ColumnConf columnConf : configs){
-
+            Object line = list.get(rowIndex);
+            for (int columnIndex = 0; columnIndex < configs.size();columnIndex++){
+                Cell cell = row.createCell(columnIndex);
+                ColumnConf columnConf = configs.get(columnIndex);
+                Object val = getPropertyValue(line, columnConf.getProperty());
+                setCellValue(cell, val);
             }
         }
         try {
@@ -88,6 +93,10 @@ public class ExcelUtil {
             }
         }
         return null;
+    }
+
+    private static void setCellValue(Cell cell, Object val){
+
     }
 
 
